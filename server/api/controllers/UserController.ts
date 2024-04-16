@@ -1,0 +1,170 @@
+import { errors } from "@vinejs/vine";
+import { FastifyReply, FastifyRequest } from "fastify";
+import jwt from "jsonwebtoken";
+import {
+  CreateUserService,
+  DeleteUserService,
+  EditUserService,
+  FindUserService,
+} from "../services/UserService";
+import { IUser } from "../types";
+import { userSchema } from "../utils/vinejs";
+
+const SECRET_KEY = process.env.SECRET_KEY as string;
+
+const findUser = async (req: FastifyRequest, reply: FastifyReply) => {
+  try {
+    const { token } = req.headers as { token: string };
+
+    jwt.verify(token, SECRET_KEY, (err) => {
+      if (err) {
+        return reply.status(401).send({
+          statusCode: 401,
+          message: "invalid token",
+        });
+      }
+    });
+
+    const { userEmail } = req.params as { userEmail: string };
+
+    const findUser = new FindUserService();
+    const user = await findUser.execute(userEmail);
+
+    if(user === null) {
+      return reply.status(200).send({
+        statusCode: 200,
+        error: "No users found",
+      });
+    }
+
+    return reply.status(200).send(user);
+  } catch (error) {
+    return reply.status(500).send({ error: error.message });
+  }
+};
+
+const createdUser = async (req: FastifyRequest, reply: FastifyReply) => {
+  try {
+    const { userBody } = await userSchema(req.body as IUser);
+
+    if (userBody.password !== userBody.confirmPassword) {
+      return reply.status(400).send({
+        statusCode: 400,
+        error: "The confirmed password is not the same",
+      });
+    }
+
+    const userService = new CreateUserService();
+    await userService.execute(userBody);
+
+    return reply.status(201).send({
+      statusCode: 201,
+      message: "User created successfully",
+    });
+  } catch (error) {
+    if (error instanceof errors.E_VALIDATION_ERROR) {
+      return reply
+        .status(400)
+        .send({ statusCode: 400, error: error.messages[0].message });
+    }
+
+    if (error.code === "P2002") {
+      return reply.status(400).send({
+        statusCode: 400,
+        error:
+          "There is a unique constraint violation, a new user cannot be created with this email",
+      });
+    }
+
+    return reply.status(500).send({ error });
+  }
+};
+
+const editUser = async (req: FastifyRequest, reply: FastifyReply) => {
+  try {
+    const { token } = req.headers as { token: string };
+
+    jwt.verify(token, SECRET_KEY, (err) => {
+      if (err) {
+        return reply.status(401).send({
+          statusCode: 401,
+          message: "invalid token",
+        });
+      }
+    });
+
+    const { userEmail } = req.params as { userEmail: string };
+    const { userBody } = await userSchema(req.body as IUser);
+
+    if (userBody.password !== userBody.confirmPassword) {
+      return reply.status(400).send({
+        statusCode: 400,
+        error: "The confirmed password is not the same",
+      });
+    }
+
+    const userService = new EditUserService();
+    await userService.execute(userEmail, userBody);
+
+    return reply.status(200).send({
+      statusCode: 200,
+      message: "User updated successfully",
+    });
+  } catch (error) {
+    if (error instanceof errors.E_VALIDATION_ERROR) {
+      return reply
+        .status(400)
+        .send({ statusCode: 400, error: error.messages[0].message });
+    }
+
+    if (error.code === "P2002") {
+      return reply.status(400).send({
+        statusCode: 400,
+        error:
+          "There is a unique constraint violation, a new user cannot be created with this email",
+      });
+    }
+
+    return reply.status(500).send({ error });
+  }
+};
+
+const deleteUser = async (req: FastifyRequest, reply: FastifyReply) => {
+  try {
+    const { token } = req.headers as { token: string };
+
+    jwt.verify(token, SECRET_KEY, (err) => {
+      if (err) {
+        return reply.status(401).send({
+          statusCode: 401,
+          message: "invalid token",
+        });
+      }
+    });
+
+    const { userEmail } = req.params as { userEmail: string };
+
+    const userService = new DeleteUserService();
+    await userService.execute(userEmail);
+
+    return reply.status(200).send({
+      statusCode: 200,
+      message: "User successfully deleted",
+    });
+  } catch (error) {
+    if (error instanceof errors.E_VALIDATION_ERROR) {
+      return reply
+        .status(400)
+        .send({ statusCode: 400, error: error.messages[0].message });
+    }
+
+    return reply.status(500).send({ error });
+  }
+};
+
+export const userControllers = {
+  findUser,
+  createdUser,
+  editUser,
+  deleteUser,
+};
