@@ -11,8 +11,8 @@ export const routes = async (
   fastify: FastifyInstance,
   options: FastifyPluginOptions
 ) => {
-  fastify.get("/ping", async (req: FastifyRequest, reply: FastifyReply) => {
-    return 'pong';
+  fastify.get("/", async (req: FastifyRequest, reply: FastifyReply) => {
+    return { ping: "pong" };
   });
 
   fastify.post("/login", async (req: FastifyRequest, reply: FastifyReply) => {
@@ -30,11 +30,17 @@ export const routes = async (
     return await userControllers.createdUser(req, reply);
   });
 
-  fastify.put("/user/:userEmail", async (req: FastifyRequest, reply: FastifyReply) => {
-    return await userControllers.editUser(req, reply);
-  });
+  fastify.put(
+    "/user/:userEmail",
+    async (req: FastifyRequest, reply: FastifyReply) => {
+      return await userControllers.editUser(req, reply);
+    }
+  );
 
-  fastify.delete("/user/:userEmail", async (req: FastifyRequest, reply: FastifyReply) => {
-    return await userControllers.deleteUser(req, reply);
-  });
+  fastify.delete(
+    "/user/:userEmail",
+    async (req: FastifyRequest, reply: FastifyReply) => {
+      return await userControllers.deleteUser(req, reply);
+    }
+  );
 };

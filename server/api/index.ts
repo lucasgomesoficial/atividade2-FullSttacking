@@ -6,10 +6,12 @@ const PORT = process.env.PORT ?? 8080;
 
 const server = fastify();
 
-server.register(cors);
+server.register(cors, {
+  origin: '*'
+});
 server.register(routes);
 
-server.listen({ port: Number(PORT) }, (err, address) => {
+server.listen({ port: Number(PORT), host: '0.0.0.0' }, (err, address) => {
   if (err) {
     console.error(err);
     process.exit(1);
