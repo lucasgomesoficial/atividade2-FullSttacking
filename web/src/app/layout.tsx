@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 import "../styles/globals.css";
 
 const roboto = Roboto({
   subsets: ["latin"],
-  weight: "400",
+  weight: ["300", "500", "900"],
 });
 
 export const metadata: Metadata = {
@@ -22,7 +23,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt">
-      <body className={roboto.className}>{children}</body>
+      <body className={roboto.className}>
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          toastOptions={{ duration: 8000 }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

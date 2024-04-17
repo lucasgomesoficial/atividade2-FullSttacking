@@ -1,7 +1,27 @@
+"use client";
+
+import { useFetch } from "@/hooks/useFetch";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React from "react";
 
 export default function Home() {
+  const router = useRouter();
+
+  const { user, cookies, removeCookie, isLoading } = useFetch();
+
+  const { cookieConfig } = cookies;
+
+  if (!cookieConfig) {
+    router.replace("/");
+  }
+
+  const logoutSession = () => {
+    removeCookie("cookieConfig");
+  };
+
+  if (isLoading) return <span>...carregando</span>;
+
   return (
     <main className="h-screen flex flex-col items-center justify-center gap-10">
       <Image
@@ -12,18 +32,18 @@ export default function Home() {
         priority
       />
       <div className="w-1/3 flex text-center flex-col items-center gap-4">
-        <h1 className="text-2xl font-medium">Bem-vindo Mailde! 😊</h1>
+        <h1 className="text-2xl font-medium">😊 Bem-vindo(a) {user?.name}!</h1>
         <p className="font-thin">
           Este app foi criado para ajudar você a ser mais sustentável e
           responsável em sua vida pessoal e profissional.
         </p>
       </div>
-      <Link
-        href="/"
-        className="w-72 h-14 bg-red-700 rounded-3xl flex items-center justify-center"
+      <button
+        onClick={logoutSession}
+        className="w-72 h-14 bg-red-700 rounded-3xl flex items-center justify-center text-white font-medium text-lg"
       >
-        <span className="text-white font-medium text-lg">Fechar seção</span>
-      </Link>
+        Fechar seção
+      </button>
     </main>
   );
 }
