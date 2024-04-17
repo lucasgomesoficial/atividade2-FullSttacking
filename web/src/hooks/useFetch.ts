@@ -26,7 +26,7 @@ export const useFetch = () => {
 
       const response = await api.post("/login", user);
 
-      setCookie("cookieConfig", response.data.data);
+      setCookie("cookieConfig", response.data.data, { expires });
       toast.success("Olá 👋!");
       setIsLoading(false);
       router.push("/home");
@@ -36,7 +36,6 @@ export const useFetch = () => {
     }
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const findUser = useCallback(async () => {
     setIsLoading(true);
     try {

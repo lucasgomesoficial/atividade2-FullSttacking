@@ -1,6 +1,6 @@
 "use client";
 
-import { Inputs } from "@/hooks/types";
+import { Inputs } from "../hooks/types";
 import { useFetch } from "../hooks/useFetch";
 import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
