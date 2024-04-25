@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { Toaster } from "react-hot-toast";
-import "../styles/globals.css";
+import "./styles/globals.css";
 
 const roboto = Roboto({
   subsets: ["latin"],

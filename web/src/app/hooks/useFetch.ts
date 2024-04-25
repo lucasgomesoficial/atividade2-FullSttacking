@@ -1,5 +1,3 @@
-"use client";
-
 import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";
 import toast from "react-hot-toast";
@@ -95,13 +93,17 @@ export const useFetch = () => {
     findUser();
   }, [findUser]);
 
+  const logoutSession = () => {
+    removeCookie("cookieConfig");
+  };
+
   return {
     submitAccess,
     user,
     isLoading,
     findUser,
-    removeCookie,
     cookies,
     createdUser,
+    logoutSession
   };
 };

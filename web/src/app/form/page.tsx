@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { FormInputs } from "../../hooks/types";
-import { useFetch } from "../../hooks/useFetch";
+import { FormInputs } from "../hooks/types";
+import { useFetch } from "../hooks/useFetch";
 import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
 
