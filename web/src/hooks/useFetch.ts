@@ -1,4 +1,4 @@
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import React, { useCallback } from "react";
 import toast from "react-hot-toast";
 import { api } from "../service/api";
