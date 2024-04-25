@@ -1,6 +1,13 @@
-export interface Inputs {
+export interface LoginInputs {
   email: string;
   password: string;
+}
+
+export interface FormInputs {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 }
 
 export interface Users {

@@ -1,21 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { LoginInputs } from "../hooks/types";
-import { useFetch } from "../hooks/useFetch";
+import { FormInputs } from "../../hooks/types";
+import { useFetch } from "../../hooks/useFetch";
 import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-export default function Login() {
-  const { submitAccess, isLoading } = useFetch();
+export default function Form() {
+  const { createdUser, isLoading } = useFetch();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginInputs>();
+  } = useForm<FormInputs>();
 
-  const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
-    await submitAccess(data);
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    await createdUser(data);
   };
 
   return (
@@ -27,11 +27,19 @@ export default function Login() {
         height={305}
         priority={false}
       />
-      <h1 className="text-2xl font-medium">Acesse sua conta</h1>
+      <h1 className="text-2xl font-medium">Crie sua conta</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col w-full items-center gap-4"
       >
+        <input
+          className="w-72 h-12 border border-black rounded-3xl px-4"
+          placeholder={
+            errors.name ? "Esse campo é obrigatório" : "Matilde Doe"
+          }
+          type="text"
+          {...register("name", { required: true })}
+        />
         <input
           className="w-72 h-12 border border-black rounded-3xl px-4"
           placeholder={
@@ -48,17 +56,25 @@ export default function Login() {
           type="password"
           {...register("password", { required: true })}
         />
+        <input
+          className="w-72 h-12 border border-black rounded-3xl px-4"
+          placeholder={
+            errors.confirmPassword ? "Esse campo é obrigatório" : "Confirme sua senha"
+          }
+          type="password"
+          {...register("confirmPassword", { required: true })}
+        />
         <button
           type="submit"
           className="w-72 h-14 bg-purple-700 rounded-3xl flex items-center justify-center text-white font-medium text-lg"
         >
-          {isLoading ? '...carregando' : 'Entrar'}
+          {isLoading ? '...carregando' : 'Criar conta'}
         </button>
         <Link
-          href='/form'
+          href='/'
           className="w-72 h-14 bg-gray-700 rounded-3xl flex items-center justify-center text-white font-medium text-lg"
         >
-          Criar conta
+          Voltar
         </Link>
       </form>
     </main>

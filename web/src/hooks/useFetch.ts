@@ -2,7 +2,7 @@ import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";
 import toast from "react-hot-toast";
 import { api } from "../service/api";
-import { Inputs, Users } from "./types";
+import { LoginInputs, Users, FormInputs } from "./types";
 import { useCookies } from "react-cookie";
 
 const oneDay = 24 * 60 * 60 * 1000;
@@ -16,7 +16,7 @@ export const useFetch = () => {
 
   const router = useRouter();
 
-  const submitAccess = async ({ email, password }: Inputs) => {
+  const submitAccess = async ({ email, password }: LoginInputs) => {
     setIsLoading(true);
     try {
       const user = {
@@ -36,21 +36,50 @@ export const useFetch = () => {
     }
   };
 
+  const createdUser = async ({
+    name,
+    email,
+    password,
+    confirmPassword,
+  }: FormInputs) => {
+    setIsLoading(true);
+    try {
+      const user = {
+        name,
+        email,
+        password,
+        confirmPassword,
+      };
+
+      if(password === confirmPassword) {
+        await api.post("/user", user);
+  
+        toast.success("Usuário criado com sucesso 🧑‍🚀!");
+        router.push("/");
+      } else {
+        toast.error("Senhas não são iguais, tente novamente!");
+      }
+
+      setIsLoading(false);
+    } catch (err) {
+      toast.error("Error ao criar o usuário, tente novamente mais tarde");
+      setIsLoading(false);
+    }
+  };
+
   const findUser = useCallback(async () => {
     setIsLoading(true);
     try {
       const { cookieConfig: user } = cookies;
 
       if (user) {
-        const response = await api.get(`/user/${user.emailUser}`, {
+        const response = await api.get(`/user/${user.email}`, {
           headers: {
             token: user.token,
           },
         });
 
         setUser(response.data);
-      } else {
-        router.push("/");
       }
 
       setIsLoading(false);
@@ -71,5 +100,6 @@ export const useFetch = () => {
     findUser,
     removeCookie,
     cookies,
+    createdUser,
   };
 };

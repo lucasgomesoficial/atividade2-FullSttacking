@@ -8,7 +8,7 @@ import React from "react";
 export default function Home() {
   const router = useRouter();
 
-  const { user, cookies, removeCookie, isLoading } = useFetch();
+  const { user, cookies, removeCookie } = useFetch();
 
   const { cookieConfig } = cookies;
 
@@ -19,8 +19,6 @@ export default function Home() {
   const logoutSession = () => {
     removeCookie("cookieConfig");
   };
-
-  if (isLoading) return <span>...carregando</span>;
 
   return (
     <main className="h-screen flex flex-col items-center justify-center gap-10">
