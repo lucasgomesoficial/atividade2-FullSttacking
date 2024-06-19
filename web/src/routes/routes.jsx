@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 import { ROUTER_CONFIG } from "../config/constants";
 import { AuthProvider } from "../context/authProvider";
-import { ErrorPage, Home, Login, CreatedUser } from "../pages/index";
+import { ErrorPage, Home, Login, CreatedUser, Profile } from "../pages/index";
 import { getFromLocalStorage } from "../utils/localStorage";
 
 function protectedRoute() {
@@ -27,6 +27,11 @@ const router = createBrowserRouter([
         path: ROUTER_CONFIG.HOME,
         loader: protectedRoute,
         Component: Home,
+      },
+      {
+        path: ROUTER_CONFIG.PROFILE,
+        loader: protectedRoute,
+        Component: Profile,
       },
       {
         path: ROUTER_CONFIG.CREATE_USER,

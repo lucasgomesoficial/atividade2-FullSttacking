@@ -1,13 +1,7 @@
-import { useEffect } from "react";
-import {
-  useRouteError,
-  isRouteErrorResponse,
-  useNavigate,
-} from "react-router-dom";
+import { isRouteErrorResponse, useRouteError } from "react-router-dom";
 
 export function ErrorPage() {
   const error = useRouteError();
-  const navigate = useNavigate();
   let errorMessage;
 
   if (isRouteErrorResponse(error)) {
@@ -19,10 +13,6 @@ export function ErrorPage() {
   } else {
     errorMessage = "Unknown error";
   }
-
-  useEffect(() => {
-    setInterval(() => navigate("/login"), 5000);
-  }, [navigate]);
 
   return (
     <div

@@ -21,6 +21,12 @@ export function Home() {
         </p>
       </div>
       <button
+        onClick={() => navigate(ROUTER_CONFIG.PROFILE)}
+        className="w-72 h-14 bg-gray-600 rounded-3xl flex items-center justify-center text-white font-medium text-lg"
+      >
+        Perfil
+      </button>
+      <button
         onClick={() => {
           auth.signout(() => navigate(ROUTER_CONFIG.LOGIN));
         }}

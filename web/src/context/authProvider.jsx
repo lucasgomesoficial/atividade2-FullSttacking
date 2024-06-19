@@ -8,9 +8,9 @@ import {
 export const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const signin = useCallback(async (newUser, callback) => {
+  const signin = useCallback(async (user, callback) => {
     try {
-      const { data } = await api.post("/login", newUser);
+      const { data } = await api.post("/login", user);
 
       if (data.data) {
         setToLocalStorage("authESG", data.data);
