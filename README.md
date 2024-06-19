@@ -35,7 +35,6 @@
 
 <p align="center">
   <a href="#dart-explicação-do-projeto">Sobre</a> &#xa0; | &#xa0;
-  <a href="#sparkles-justificativa-do-projeto">Justificativas</a> &#xa0; | &#xa0;
   <a href="#rocket-tecnologias">Tecnologias</a> &#xa0; | &#xa0;
   <a href="#arrow_up-deploy">Links do Deploy</a> &#xa0; | &#xa0;
   <a href="#white_check_mark-requerimentos">Requerimentos</a> &#xa0; | &#xa0;
@@ -47,41 +46,15 @@
 
 ## :dart: Explicação do projeto
 
-### Recursos Principais do App
+AppDos primeiros passos ao protótipo.
 
-#### 1. _Monitoramento e Relato de Problemas_
+Esta é uma atividade que pode ser desenvolvida de forma individual ou em grupo de no máximo 5 (cinco) integrantes.
 
-- _Envio de Relatos:_ Usuários podem enviar relatos sobre problemas observados nos oceanos, descrevendo sobre o acorrido.
-- _Geolocalização Automática:_ O app registra automaticamente a localização GPS dos relatos.
-- _Identificação do Estado:_ O sistema identifica o estado brasileiro correspondente às coordenadas GPS fornecidas.
+Ao longo das fases iniciais de nosso 2º ano de estudos de Sistemas para Internet, temos pensado no desenvolvimento de uma Plataforma ESG e propondo ferramentas que auxiliem na utilização dos recursos naturais de nosso planeta de maneira sustentável.
 
-#### 2. _Mapa Interativo de Problemas_
+Pensando nisso, desenvolva uma área da Plataforma ESG a escolha do seu time – área de usuário, cadastro de atividades, área informativa... decida, planeje e desenvolva!
 
-- _Visualização em Tempo Real:_ Um mapa interativo exibe todos os problemas relatados, permitindo que os usuários vejam áreas afetadas e planejem suas atividades.
-
-#### 3. _Recursos Informativos_
-
-- _Índice de relatos por estado:_ Visualização da quantidade de relatos por estado.
-
-## :sparkles: Justificativa do projeto
-
-### Importância dos Oceanos
-
-Os oceanos são vitais para o clima, produção de oxigênio e biodiversidade. No entanto, estão ameaçados pela poluição, pesca excessiva e mudanças climáticas. Monitorar e relatar problemas é essencial para ações eficazes de conservação.
-
-### Participação Comunitária
-
-Envolver a comunidade é crucial para a preservação ambiental. Este projeto capacita cidadãos a relatar problemas, promovendo responsabilidade e cuidado com os oceanos.
-
-### Benefícios Esperados
-
-- [x] **Melhoria Ambiental:** Resolução rápida de problemas ambientais.
-- [x] **Engajamento e Educação:** Aumento da conscientização e proatividade na conservação.
-- [x] **Dados para Políticas Públicas:** Informações precisas para políticas eficazes de gestão ambiental.
-
-### Conclusão
-
-Este projeto capacita cidadãos para monitorar e relatar problemas nos oceanos, oferecendo educação ambiental e promovendo ações de conservação eficazes.
+O desenvolvimento deve contemplar uma área para o portal Web e a mesma área para o app Android.
 
 ## :rocket: Tecnologias
 
@@ -91,10 +64,9 @@ Este projeto capacita cidadãos para monitorar e relatar problemas nos oceanos, 
 
 - [React](https://react.dev/)
 - [ViteJs](https://vitejs.dev/)
-- [React Leaflet](https://react-leaflet.js.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
-- [Shadcn/ui](https://ui.shadcn.com/)
 - [React Router](https://reactrouter.com/en/main)
+- [React Hook Form](https://react-hook-form.com/)
 - [Lucide React](https://lucide.dev/)
 - [Axios](https://axios-http.com/ptbr/)
 
@@ -113,17 +85,13 @@ Este projeto capacita cidadãos para monitorar e relatar problemas nos oceanos, 
 - [Prisma](https://www.prisma.io/)
 - [Zod](https://zod.dev/)
 
-## APIs utilizadas e suas funções.
-
-Para documentação da API, acesse o link: [ocean-report-api](https://ocean-report-production.up.railway.app/docs)
-
 ## :arrow_up: Deploy
 
 ### Links do deploy (back e front) em funcionamento.
 
-Front-end: [web](https://atividade2-full-sttacking.vercel.app/)
+Front-end: [web](https://atividade2-full-sttacking.vercel.app/login)
 Front-end: [mobile](https://snack.expo.dev/@lucasgomesdev/atividade2-fullstacking-mobile)
-Back-end: [api](https://ocean-report-production.up.railway.app)
+Back-end: [api](https://atividade2-fullsttacking-production.up.railway.app)
 
 ## :white_check_mark: Requerimentos
 
@@ -139,14 +107,15 @@ Somente pelo snack
 
 ```bash
 # Clone this project
-$ git clone https://github.com/lucasgomesoficial/ocean-report
+$ git clone https://github.com/lucasgomesoficial/atividade2-FullSttacking.git
 
 # Access
-$ cd ocean-report/web
+$ cd atividade2-FullSttacking/web
 
 # Install dependencies
 $ npm i
 
+# Check Environment Variables
 # Run the project
 $ npm run dev
 
@@ -157,10 +126,10 @@ $ npm run dev
 
 ```bash
 # Clone this project
-$ git clone https://github.com/lucasgomesoficial/ocean-report
+$ git clone https://github.com/lucasgomesoficial/atividade2-FullSttacking.git
 
 # Access
-$ cd ocean-report/server
+$ cd atividade2-FullSttacking/server
 
 # Install dependencies
 $ npm i
@@ -172,7 +141,7 @@ $ npx prisma migrate
 # Run the project
 $ npm run dev
 
-# The server will initialize in the <http://localhost:3333>
+# The server will initialize in the <http://localhost:????>
 ```
 
 ## :memo: Autores
