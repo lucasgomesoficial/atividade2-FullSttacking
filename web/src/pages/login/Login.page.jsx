@@ -13,9 +13,8 @@ export function Login() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = ({ email }) => {
-    console.log("passou");
-    auth.signin(email, () => {
+  const onSubmit = ({ email, password }) => {
+    auth.signin({ email, password }, () => {
       navigate(ROUTER_CONFIG.HOME, { replace: true });
     });
   };
@@ -49,6 +48,12 @@ export function Login() {
           className="w-72 h-14 bg-purple-700 rounded-3xl flex items-center justify-center text-white font-medium text-lg"
         >
           Entrar
+        </button>
+        <button
+          onClick={() => navigate(ROUTER_CONFIG.CREATE_USER)}
+          className="w-72 h-14 bg-gray-600 rounded-3xl flex items-center justify-center text-white font-medium text-lg"
+        >
+          Criar Conta
         </button>
       </form>
     </main>

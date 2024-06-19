@@ -5,13 +5,16 @@ import {
 } from "react-router-dom";
 import { ROUTER_CONFIG } from "../config/constants";
 import { AuthProvider } from "../context/authProvider";
-import { ErrorPage, Home, Login } from "../pages/index";
-import { fakeAuthProvider } from "../auth/auth";
+import { ErrorPage, Home, Login, CreatedUser } from "../pages/index";
+import { getFromLocalStorage } from "../utils/localStorage";
 
 function protectedRoute() {
-  if (!fakeAuthProvider.isAuthenticated) {
+  const { userAuth } = getFromLocalStorage("authESG");
+
+  if (!userAuth.token) {
     return redirect(ROUTER_CONFIG.LOGIN);
   }
+
   return null;
 }
 
@@ -24,6 +27,10 @@ const router = createBrowserRouter([
         path: ROUTER_CONFIG.HOME,
         loader: protectedRoute,
         Component: Home,
+      },
+      {
+        path: ROUTER_CONFIG.CREATE_USER,
+        Component: CreatedUser,
       },
       {
         path: ROUTER_CONFIG.LOGIN,
