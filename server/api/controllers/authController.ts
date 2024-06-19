@@ -1,9 +1,10 @@
-import jwt from "jsonwebtoken";
 import { errors } from "@vinejs/vine";
 import { FastifyReply, FastifyRequest } from "fastify";
+import jwt from "jsonwebtoken";
+import { prismaClient } from "../prisma";
+import { verifyPassword } from "../utils/bcrypt";
 import { loginSchema } from "../utils/vinejs";
 import { FindUserService } from "../services/UserService";
-import { verifyPassword } from "../utils/bcrypt";
 
 const SECRET_KEY = process.env.SECRET_KEY as string;
 
@@ -52,7 +53,9 @@ const login = async (req: FastifyRequest, reply: FastifyReply) => {
       return reply.status(400).send({ error: error.messages[0].message });
     }
 
-    return reply.status(500).send({ error: error.message });
+    const { message } = error as { message: string };
+
+    return reply.status(500).send({ error: message });
   }
 };
 

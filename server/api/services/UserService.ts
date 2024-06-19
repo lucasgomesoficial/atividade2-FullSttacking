@@ -11,16 +11,14 @@ export class FindUserService {
 }
 
 export class CreateUserService {
-  async execute({ email, name, password, role }: IUser) {
-    const user = {
-      email,
-      name,
-      password: await createdHashPassword(password),
-      role: role ?? "USER",
+  async execute(user: IUser) {
+    const newUser = {
+      ...user,
+      password: await createdHashPassword(user.password),
     };
 
     await prismaClient.user.create({
-      data: user,
+      data: newUser,
     });
   }
 }
@@ -28,8 +26,7 @@ export class CreateUserService {
 export class EditUserService {
   async execute(userEmail: string, user: IUser) {
     const newUser = {
-      email: user.email,
-      name: user.name,
+      ...user,
       password: await createdHashPassword(user.password),
       role: user.role ?? "USER",
       updated_at: new Date(),

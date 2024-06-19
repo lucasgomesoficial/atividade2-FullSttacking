@@ -1,32 +1,28 @@
-"use client";
+import { useForm } from "react-hook-form";
+import { useAuth } from "../../hook/useAuth";
+import { useNavigate } from "react-router";
+import { ROUTER_CONFIG } from "../../config/constants";
 
-import Link from "next/link";
-import { LoginInputs } from "./hooks/types";
-import { useFetch } from "./hooks/useFetch";
-import Image from "next/image";
-import { SubmitHandler, useForm } from "react-hook-form";
+export function Login() {
+  const auth = useAuth();
+  const navigate = useNavigate();
 
-export default function Login() {
-  const { submitAccess, isLoading } = useFetch();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginInputs>();
+  } = useForm();
 
-  const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
-    await submitAccess(data);
+  const onSubmit = ({ email }) => {
+    console.log("passou");
+    auth.signin(email, () => {
+      navigate(ROUTER_CONFIG.HOME, { replace: true });
+    });
   };
 
   return (
     <main className="h-screen flex flex-col items-center justify-center gap-10">
-      <Image
-        src="/group.png"
-        alt="Login image"
-        width={305}
-        height={305}
-        priority={false}
-      />
+      <img src="/group.png" alt="icon do login" />
       <h1 className="text-2xl font-medium">Acesse sua conta</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -52,14 +48,8 @@ export default function Login() {
           type="submit"
           className="w-72 h-14 bg-purple-700 rounded-3xl flex items-center justify-center text-white font-medium text-lg"
         >
-          {isLoading ? '...carregando' : 'Entrar'}
+          Entrar
         </button>
-        <Link
-          href='/form'
-          className="w-72 h-14 bg-gray-700 rounded-3xl flex items-center justify-center text-white font-medium text-lg"
-        >
-          Criar conta
-        </Link>
       </form>
     </main>
   );

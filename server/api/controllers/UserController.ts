@@ -30,7 +30,7 @@ const findUser = async (req: FastifyRequest, reply: FastifyReply) => {
     const findUser = new FindUserService();
     const user = await findUser.execute(userEmail);
 
-    if(user === null) {
+    if (!user) {
       return reply.status(200).send({
         statusCode: 200,
         error: "No users found",
@@ -39,7 +39,8 @@ const findUser = async (req: FastifyRequest, reply: FastifyReply) => {
 
     return reply.status(200).send(user);
   } catch (error) {
-    return reply.status(500).send({ error: error.message });
+    const { message } = error as { message: string };
+    return reply.status(500).send({ error: message });
   }
 };
 
@@ -47,15 +48,15 @@ const createdUser = async (req: FastifyRequest, reply: FastifyReply) => {
   try {
     const { userBody } = await userSchema(req.body as IUser);
 
-    if (userBody.password !== userBody.confirmPassword) {
-      return reply.status(400).send({
-        statusCode: 400,
-        error: "The confirmed password is not the same",
-      });
-    }
+    const { role } = userBody as { role: "USER" | "ADMIN" | undefined };
+
+    const newUser = {
+      ...userBody,
+      role,
+    };
 
     const userService = new CreateUserService();
-    await userService.execute(userBody);
+    await userService.execute(newUser);
 
     return reply.status(201).send({
       statusCode: 201,
@@ -68,7 +69,9 @@ const createdUser = async (req: FastifyRequest, reply: FastifyReply) => {
         .send({ statusCode: 400, error: error.messages[0].message });
     }
 
-    if (error.code === "P2002") {
+    const { message, code } = error as { message: string; code: string };
+
+    if (code === "P2002") {
       return reply.status(400).send({
         statusCode: 400,
         error:
@@ -76,7 +79,7 @@ const createdUser = async (req: FastifyRequest, reply: FastifyReply) => {
       });
     }
 
-    return reply.status(500).send({ error });
+    return reply.status(500).send({ error: message });
   }
 };
 
@@ -96,15 +99,15 @@ const editUser = async (req: FastifyRequest, reply: FastifyReply) => {
     const { userEmail } = req.params as { userEmail: string };
     const { userBody } = await userSchema(req.body as IUser);
 
-    if (userBody.password !== userBody.confirmPassword) {
-      return reply.status(400).send({
-        statusCode: 400,
-        error: "The confirmed password is not the same",
-      });
-    }
+    const { role } = userBody as { role: "USER" | "ADMIN" | undefined };
+
+    const newUser = {
+      ...userBody,
+      role,
+    };
 
     const userService = new EditUserService();
-    await userService.execute(userEmail, userBody);
+    await userService.execute(userEmail, newUser);
 
     return reply.status(200).send({
       statusCode: 200,
@@ -117,7 +120,9 @@ const editUser = async (req: FastifyRequest, reply: FastifyReply) => {
         .send({ statusCode: 400, error: error.messages[0].message });
     }
 
-    if (error.code === "P2002") {
+    const { message, code } = error as { message: string; code: string };
+
+    if (code === "P2002") {
       return reply.status(400).send({
         statusCode: 400,
         error:
@@ -125,7 +130,7 @@ const editUser = async (req: FastifyRequest, reply: FastifyReply) => {
       });
     }
 
-    return reply.status(500).send({ error });
+    return reply.status(500).send({ error: message });
   }
 };
 
@@ -158,7 +163,9 @@ const deleteUser = async (req: FastifyRequest, reply: FastifyReply) => {
         .send({ statusCode: 400, error: error.messages[0].message });
     }
 
-    return reply.status(500).send({ error });
+    const { message } = error as { message: string };
+
+    return reply.status(500).send({ error: message });
   }
 };
 

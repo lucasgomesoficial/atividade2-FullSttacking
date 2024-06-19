@@ -1,17 +1,9 @@
-import {
-  FastifyInstance,
-  FastifyPluginOptions,
-  FastifyReply,
-  FastifyRequest,
-} from "fastify";
+import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { userControllers } from "./controllers/UserController";
 import { authControllers } from "./controllers/authController";
 
-export const routes = async (
-  fastify: FastifyInstance,
-  options: FastifyPluginOptions
-) => {
-  fastify.get("/", async (req: FastifyRequest, reply: FastifyReply) => {
+export const routes = async (fastify: FastifyInstance) => {
+  fastify.get("/", () => {
     return { ping: "pong" };
   });
 
